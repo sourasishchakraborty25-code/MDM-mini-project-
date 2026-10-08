@@ -1,0 +1,15 @@
+{
+  "name": "library-management-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Library Management System - HTML/CSS/JS frontend, Python Flask backend, SQLite database",
+  "scripts": {
+    "start": "python backend/app.py",
+    "test": "python -m pytest -v",
+    "format": "prettier --write \"frontend/**/*.{html,css,js}\"",
+    "format:check": "prettier --check \"frontend/**/*.{html,css,js}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  }
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Library Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2.5z"/><path d="M4 19.5A2 2 0 0 0 6 22h13v-3"/><path d="M9 7h6"/></svg>
+      </span>
+      <div>
+        <h1>Library Management System</h1>
+        <p class="subtitle">Catalogue · Members · Issue &amp; Return</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Dashboard stats -->
+    <section class="stats" aria-label="Library statistics">
+      <div class="stat"><span class="stat-num" id="stat-total">–</span><span class="stat-label">Total books</span></div>
+      <div class="stat"><span class="stat-num ok" id="stat-available">–</span><span class="stat-label">Available</span></div>
+      <div class="stat"><span class="stat-num warn" id="stat-issued">–</span><span class="stat-label">Issued</span></div>
+      <div class="stat"><span class="stat-num danger" id="stat-overdue">–</span><span class="stat-label">Overdue</span></div>
+      <div class="stat"><span class="stat-num" id="stat-members">–</span><span class="stat-label">Members</span></div>
+    </section>
+
+    <!-- Tabs -->
+    <nav class="tabs" role="tablist">
+      <button class="tab active" role="tab" data-tab="books">Books</button>
+      <button class="tab" role="tab" data-tab="members">Members</button>
+      <button class="tab" role="tab" data-tab="issues">Issued Books</button>
+    </nav>
+
+    <!-- ================= BOOKS ================= -->
+    <section class="panel active" id="panel-books">
+      <div class="layout">
+        <form id="book-form" class="card form" novalidate>
+          <h2 id="book-form-title">Add a new book</h2>
+          <input type="hidden" id="book-id" />
+          <label>Title
+            <input id="book-title" name="title" required maxlength="200" placeholder="e.g. Wings of Fire" />
+            <small class="field-error" data-for="title"></small>
+          </label>
+          <label>Author
+            <input id="book-author" name="author" required maxlength="120" placeholder="e.g. A. P. J. Abdul Kalam" />
+            <small class="field-error" data-for="author"></small>
+          </label>
+          <label>ISBN
+            <input id="book-isbn" name="isbn" required placeholder="10 or 13 digits" />
+            <small class="field-error" data-for="isbn"></small>
+          </label>
+          <label>Category
+            <input id="book-category" name="category" required list="category-list" placeholder="e.g. Computer Science" />
+            <datalist id="category-list"></datalist>
+            <small class="field-error" data-for="category"></small>
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="btn primary" id="book-submit">Add book</button>
+            <button type="button" class="btn ghost hidden" id="book-cancel">Cancel edit</button>
+          </div>
+        </form>
+
+        <div class="card">
+          <div class="toolbar">
+            <div class="search">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input id="book-search" type="search" placeholder="Search books…" aria-label="Search books" />
+            </div>
+            <select id="search-by" aria-label="Search by">
+              <option value="all">All fields</option>
+              <option value="title">Title</option>
+              <option value="author">Author</option>
+              <option value="isbn">ISBN</option>
+            </select>
+            <select id="filter-category" aria-label="Category filter"><option value="">All categories</option></select>
+            <select id="filter-status" aria-label="Status filter">
+              <option value="">Any status</option>
+              <option value="Available">Available</option>
+              <option value="Issued">Issued</option>
+            </select>
+          </div>
+          <p class="result-count" id="book-count"></p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Book</th><th>ISBN</th><th>Category</th><th>Status</th><th class="right">Actions</th></tr></thead>
+              <tbody id="book-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MEMBERS ================= -->
+    <section class="panel" id="panel-members">
+      <div class="layout">
+        <form id="member-form" class="card form" novalidate>
+          <h2>Register a member</h2>
+          <label>Full name
+            <input name="name" required placeholder="e.g. Sneha Kulkarni" />
+            <small class="field-error" data-for="name"></small>
+          </label>
+          <label>Email
+            <input name="email" type="email" required placeholder="name@example.com" />
+            <small class="field-error" data-for="email"></small>
+          </label>
+          <label>Phone
+            <input name="phone" required inputmode="numeric" maxlength="10" placeholder="10-digit mobile" />
+            <small class="field-error" data-for="phone"></small>
+          </label>
+          <div class="form-actions"><button type="submit" class="btn primary">Add member</button></div>
+        </form>
+
+        <div class="card">
+          <div class="toolbar">
+            <div class="search">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input id="member-search" type="search" placeholder="Search members by name, email or phone…" aria-label="Search members" />
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Books held</th><th class="right">Actions</th></tr></thead>
+              <tbody id="member-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ISSUES ================= -->
+    <section class="panel" id="panel-issues">
+      <div class="card">
+        <div class="toolbar">
+          <h2 class="inline">Issue records</h2>
+          <label class="toggle"><input type="checkbox" id="show-history" /> Show returned (history)</label>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Book</th><th>Member</th><th>Issued on</th><th>Due date</th><th>Status</th><th class="right">Actions</th></tr></thead>
+            <tbody id="issue-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Issue dialog -->
+  <dialog id="issue-dialog">
+    <form id="issue-form" method="dialog" class="form">
+      <h2>Issue book</h2>
+      <p class="muted" id="issue-book-title"></p>
+      <label>Member
+        <select id="issue-member" required></select>
+      </label>
+      <label>Loan period (days)
+        <input id="issue-days" type="number" min="1" max="60" value="14" required />
+      </label>
+      <p class="field-error" id="issue-error"></p>
+      <div class="form-actions">
+        <button type="submit" class="btn primary" value="confirm">Issue</button>
+        <button type="button" class="btn ghost" id="issue-cancel">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toasts" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
